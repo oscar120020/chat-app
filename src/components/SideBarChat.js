@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { useEffect } from "react/cjs/react.development";
 import { ChatContext } from "../context/chat/ChatContext";
+import { SocketContext } from "../context/SocketContext";
 import { fetchWithToken } from "../helpers/fetch";
 import { scrollToBotton } from "../helpers/scroll";
 import { types } from "../types/types";
@@ -8,6 +10,17 @@ export const SideBarChat = ({ info }) => {
 
   const { name, online, uid } = info
   const { dispatch, chatState } = useContext(ChatContext)
+  const { socket } = useContext(SocketContext)
+
+  const [writing, setWriting] = useState(false);
+  const [whoWrite, setWhoWrite] = useState(false);
+  
+  useEffect(() => {
+    socket?.on("writing", ({from, writing}) => {
+      setWhoWrite(from)
+      setWriting(writing)
+    })
+  }, [socket])
 
   const handleClick = () => {
 
@@ -36,20 +49,17 @@ export const SideBarChat = ({ info }) => {
         <div className="chat_ib">
           <h5>{name}</h5>
           {
-            online 
-            ? <span className="text-success">Online</span>
-            : <span className="text-danger">Offline</span>
+            (writing && whoWrite === uid) ? (
+              <span className="text-primary">Escribiendo...</span>
+            ) : (
+                (online)
+                ? <span className="text-success">Online</span>
+                : <span className="text-danger">Offline</span>
+            )
+            
           }
 
-          {/* <>
-            <h5>
-              Sunil Rajput <span className="chat_date">Dec 25</span>
-            </h5>
-            <p>
-              Test, which is a new approach to have all solutions astrology
-              under one roof.
-            </p>
-          </> */}
+
         </div>
       </div>
     </div>
