@@ -239,3 +239,7 @@ textarea {
     width: 60%;
     text-align: center;
 }
+
+.writing{
+    display: flex;
+}

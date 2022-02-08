@@ -40,7 +40,7 @@ export const MessageForm = () => {
         to: chatState.activeChat,
       })
       clearInterval(time.current)
-    }, 2000)
+    }, 1300)
   }
 
   return (

@@ -5,6 +5,7 @@ import { SocketContext } from "../context/SocketContext";
 import { fetchWithToken } from "../helpers/fetch";
 import { scrollToBotton } from "../helpers/scroll";
 import { types } from "../types/types";
+import ReactLoading from "react-loading";
 
 export const SideBarChat = ({ info }) => {
 
@@ -50,7 +51,15 @@ export const SideBarChat = ({ info }) => {
           <h5>{name}</h5>
           {
             (writing && whoWrite === uid) ? (
-              <span className="text-primary">Escribiendo...</span>
+              <div className="writing">
+                <ReactLoading
+                  type="bubbles"
+                  color="#0951eb"
+                  height={20}
+                  width={20}
+                />
+                <span className="text-primary">escribiendo</span>
+              </div>
             ) : (
                 (online)
                 ? <span className="text-success">Online</span>
